@@ -1,5 +1,4 @@
 const {merge} = require('webpack-merge');    //To merge the common and development configurations
-const htmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common'); // Import common configuration
 const packageJson = require('../package.json') // Import package.json to get shared dependencies
@@ -21,9 +20,7 @@ const devConfig = {
             },
             shared:packageJson.dependencies // Shared dependencies
         }),
-        new htmlWebpackPlugin({
-            template: './public/index.html', // Template HTML file
-        })
+      
     ]
 }
 
