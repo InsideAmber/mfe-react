@@ -7,6 +7,7 @@ const prodConfig = {
     mode: 'production',
     output: { 
         filename: '[name].[contenthash].js', // Use contenthash for better caching
+        publicPath: '/marketing/latest/'  // Set public path for production
     },
     plugins: [
         new ModuleFederationPlugin({        

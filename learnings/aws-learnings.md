@@ -275,3 +275,50 @@ Result
 - index.html always refreshed via CloudFront invalidation.
 
 - No manual invalidation required.
+
+🚀 Deploying Marketing App (Microfrontend)
+
+Steps
+
+1. Duplicate Workflow
+
+- Copy the existing `container.yml` workflow file.
+
+- Save it as `marketing.yml` inside `.github/workflows/`.
+
+2. Update Workflow Paths
+
+- In `marketing.yml`, update all references from `container → marketing` (folder names, build paths, S3 paths, etc.).
+
+3. Add Production Domain Secret
+
+- In GitHub repo settings, go to Secrets and variables → Actions.
+
+- Create a new secret:
+
+```bash
+
+PRODUCTION_DOMAIN
+
+```
+- Store the Marketing app’s production domain here.
+
+4. Use Secret in Workflow
+
+Update `container.yml` to reference `PRODUCTION_DOMAIN` for deployment.
+
+5. Webpack Config Update
+
+In `marketing/webpack.prod.config.js`, set:
+
+```js
+output: {
+  filename: "[name].[contenthash].js",
+  publicPath: "/marketing/latest/",
+}
+```
+6. Commit & Push
+
+- Commit changes (workflow + config).
+
+- Push to GitHub → triggers new deployment for Marketing app.
