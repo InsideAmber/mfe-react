@@ -215,3 +215,63 @@ container/latest/index.html
 11. Tick the I understand... confirmation box, then click Next.
 
 12. Copy and/or download the Access Key ID and Secret Access Key — these will be used for your GitHub Actions deployment.
+
+Issue
+
+- After pushing new code, the application wasn’t loading the latest changes.
+
+- Reason:
+
+  - All static assets (JS/CSS bundles) are built with unique hash filenames → CloudFront automatically picks new ones.
+
+  - But `index.html` keeps the same name → CloudFront serves the cached old version unless explicitly invalidated.
+
+Fix: Enable Fresh index.html
+
+1. Webpack Config
+
+- In `webpack.prod.config.js`, set:
+
+   ```js
+   output: {
+   filename: "[name].[contenthash].js",
+   publicPath: "/container/latest/",
+   }
+   ```
+- Ensures assets use hashed names and load correctly.
+
+2. CloudFront Invalidation
+
+- Go to AWS Console → CloudFront → Distribution → Invalidations.
+
+- Click Create Invalidation.
+
+- Enter the path for the root HTML file:
+
+```bash
+
+/container/latest/index.html
+
+```
+- This forces CloudFront to fetch the latest deployed version.
+
+Automating Invalidation (CI/CD)
+
+- In GitHub Actions workflow, add an invalidation step after S3 upload:
+
+```yaml
+- run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/container/latest/index.html"
+  env:
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+    AWS_DEFAULT_REGION: us-east-1
+```
+- This ensures every new deployment always uses the fresh index.html.
+
+Result
+
+- JS/CSS assets auto-update via unique hashes.
+
+- index.html always refreshed via CloudFront invalidation.
+
+- No manual invalidation required.
