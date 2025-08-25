@@ -322,3 +322,41 @@ output: {
 - Commit changes (workflow + config).
 
 - Push to GitHub → triggers new deployment for Marketing app.
+
+
+**Production style workflow**
+
+```bash
++---------------------------------------------------+
+| Each team develops features on git branches like  |
+| 'container-dev'                                   |
++---------------------------------------------------+
+                        |
+                        v
++---------------------------------------------------+
+| Feature complete and ready for deployment?         |
+| Push branch to GitHub                              |
++---------------------------------------------------+
+                        |
+                        v
++---------------------------------------------------+
+| Create a Pull Request to merge into master/main   |
++---------------------------------------------------+
+                        |
+                        v
++---------------------------------------------------+
+| Other engineers review the Pull Request           |
++---------------------------------------------------+
+                        |
+                        v
++---------------------------------------------------+
+| When ready to deploy, merge the Pull Request      |
++---------------------------------------------------+
+                        |
+                        v
++---------------------------------------------------+
+| Workflow detects change to master/main branch     |
+| → Deployment runs automatically                   |
++---------------------------------------------------+
+```
+
