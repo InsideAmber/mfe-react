@@ -9,7 +9,7 @@ const devConfig = {
     devServer:{
         port:8081,
         historyApiFallback: {
-            index: 'index.html' // Fallback to index.html for SPA routing
+            index: '/index.html' // Fallback to index.html for SPA routing
         }
     },
     plugins:[
