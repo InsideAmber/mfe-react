@@ -6,6 +6,9 @@ const packageJson = require('../package.json') // Import package.json to get sha
 
 const devConfig = {
     mode: 'development', // Set the mode to development
+    output:{
+        publicPath: 'http://localhost:8081/' // Set public path for development
+    },
     devServer:{
         port:8081,
         historyApiFallback: {
