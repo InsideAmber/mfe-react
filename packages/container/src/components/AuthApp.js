@@ -1,4 +1,4 @@
-import { mount } from "auth/AuthApp";   //auth is remote module name and AuthApp is the exposed module in marketing dev config
+import { mount } from "auth/AuthApp"  //auth is remote module name and AuthApp is the exposed module in marketing dev config
 import React, { useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
